@@ -1,0 +1,7 @@
+App\User\Domain\User\Confirmation:
+  type: embeddable
+  fields:
+    token:
+      type: guid
+    isPassed:
+      type: boolean

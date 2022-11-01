@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:1.19-alpine
+    volumes:
+      - .:/var/www
+      - ./env/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - '80:80'
+    depends_on:
+      - app
+  app:
+    build: ./env/php
+    volumes:
+      - .:/var/www
+      - ./var/log:/var/log
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      PHP_IDE_CONFIG: "serverName=Docker"
+  rabbitmq:
+    image: rabbitmq:3.9.20-management-alpine
+    restart: unless-stopped
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    volumes:
+      - rabbit-data:/var/lib/rabbitmq
+    depends_on:
+      - app
+    ports:
+      - ${DOCKER_PORT_RABBITMQ_WEB:-15672}:15672
+      - ${DOCKER_PORT_AMQP:-5672}:5672
+  database:
+    image: postgres:${POSTGRES_VERSION:-14}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - db-data:/var/lib/postgresql/data:rw
+
+volumes:
+  db-data:
+  rabbit-data:

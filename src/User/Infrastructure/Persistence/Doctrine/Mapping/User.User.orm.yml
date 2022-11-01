@@ -1,0 +1,18 @@
+App\User\Domain\User\User:
+  type: entity
+  table: user
+  id:
+    id:
+      type: guid
+      generator:
+        strategy: NONE
+  fields:
+    name:
+      type: string
+  embedded:
+    email:
+      class: Email
+    password:
+      class: Password
+    confirmation:
+      class: Confirmation

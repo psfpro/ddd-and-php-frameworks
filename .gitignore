@@ -1,0 +1,11 @@
+.idea
+.env
+.phpunit.result.cache
+.deptrac.cache
+deptrac.svg
+composer.phar
+clover.xml
+coveralls-upload.json
+phpunit.xml
+var
+vendor

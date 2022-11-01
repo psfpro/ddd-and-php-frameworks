@@ -1,0 +1,5 @@
+App\User\Domain\User\Email:
+  type: embeddable
+  fields:
+    address:
+      type: string

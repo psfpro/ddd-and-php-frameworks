@@ -1,0 +1,80 @@
+deptrac:
+  paths:
+    - ./src
+  layers:
+    # Delivery
+    - name: DeliveryDomain
+      collectors:
+        - type: directory
+          regex: src/Delivery/Domain/.*
+    - name: DeliveryApplication
+      collectors:
+        - type: directory
+          regex: src/Delivery/Application/.*
+    - name: DeliveryInfrastructure
+      collectors:
+        - type: directory
+          regex: src/Delivery/Infrastructure/.*
+    # Store
+    - name: StoreDomain
+      collectors:
+        - type: directory
+          regex: src/Store/Domain/.*
+    - name: StoreApplication
+      collectors:
+        - type: directory
+          regex: src/Store/Application/.*
+    - name: StoreInfrastructure
+      collectors:
+        - type: directory
+          regex: src/Store/Infrastructure/.*
+    # User
+    - name: UserDomain
+      collectors:
+        - type: directory
+          regex: src/User/Domain/.*
+    - name: UserApplication
+      collectors:
+        - type: directory
+          regex: src/User/Application/.*
+    - name: UserInfrastructure
+      collectors:
+        - type: directory
+          regex: src/User/Infrastructure/.*
+  ruleset:
+    # Delivery
+    DeliveryInfrastructure:
+      - DeliveryApplication
+      - DeliveryDomain
+    DeliveryApplication:
+      - DeliveryDomain
+    DeliveryDomain:
+    # Store
+    StoreInfrastructure:
+      - StoreApplication
+      - StoreDomain
+    StoreApplication:
+      - StoreDomain
+    StoreDomain:
+    # User
+    UserInfrastructure:
+      - UserApplication
+      - UserDomain
+    UserApplication:
+      - UserDomain
+    UserDomain:
+  formatters:
+    graphviz:
+      groups:
+        Delivery:
+          - DeliveryInfrastructure
+          - DeliveryApplication
+          - DeliveryDomain
+        Store:
+          - StoreInfrastructure
+          - StoreApplication
+          - StoreDomain
+        User:
+          - UserInfrastructure
+          - UserApplication
+          - UserDomain

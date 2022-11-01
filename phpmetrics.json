@@ -1,0 +1,33 @@
+{
+  "includes": [
+    "./src"
+  ],
+  "exclude": [
+    "./tests"
+  ],
+  "report": {
+    "html": "./public/report/",
+    "csv": "./public/report/report.csv",
+    "json": "./public/report/report.json",
+    "violations": "./public/report/violations.xml"
+  },
+  "groups": [
+    {
+      "name": "Domain",
+      "match": "!\\\\Domain\\\\!"
+    },
+    {
+      "name": "Application",
+      "match": "!\\\\Application\\\\!"
+    },
+    {
+      "name": "Infrastructure",
+      "match": "!\\\\Infrastructure\\\\!"
+    }
+  ],
+  "plugins": {
+    "git": {
+      "binary": "git"
+    }
+  }
+}
